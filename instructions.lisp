@@ -1,4 +1,4 @@
-(in-package #:org.shirakumo.speechless.dialogue)
+(in-package #:org.shirakumo.fraf.speechless)
 
 (defun print-instruction-type (instruction)
   (let ((type (string (type-of instruction))))
@@ -158,7 +158,7 @@
     (format stream "~3d ~s ~s"
             (index eval)
             (type-of eval)
-            (form eval))))
+            (func eval))))
 
 (defmethod disassemble ((instruction eval))
   (print-instruction-type instruction)

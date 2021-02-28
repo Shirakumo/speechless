@@ -3,7 +3,7 @@
 (defvar *root*)
 
 (defun parse (thing)
-  (cl-markless:parse thing (make-instance 'org.shirakumo.fraf.kandria.dialogue.syntax:parser)))
+  (cl-markless:parse thing (make-instance 'org.shirakumo.fraf.speechless.syntax:parser)))
 
 (defmethod compile ((thing mcomponents:component) assembly)
   (walk thing assembly))
@@ -61,7 +61,7 @@
                           ,@initargs)
            assembly)))
 
-(defmacro define-markup-walker (,component &body markup)
+(defmacro define-markup-walker (component &body markup)
   `(progn (defmethod walk :before ((,component ,component) (assembly assembly))
             (emit (make-instance 'begin-mark :label ,component
                                              :markup (progn ,@markup))
