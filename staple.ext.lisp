@@ -7,7 +7,7 @@
 
 (defclass page* (staple:simple-page)
   ()
-  (:default-initargs :document-package (find-package "zippy-docs")))
+  (:default-initargs :document-package (find-package "speechless-docs")))
 
 (defmethod staple:page-type ((system (eql (asdf:find-system :speechless))))
   'page*)

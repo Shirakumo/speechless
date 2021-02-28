@@ -258,7 +258,7 @@ Sometimes dialogue needs to react to game state. Choices might need to be hidden
 
 In this dialogue, the Fireman will shout ``Quick, use the water to put out the fire!`` if ``have-water`` is true.
 
-``have-water`` here is a placeholder for some kind of Lisp expression. This expression can be arbitrary Lisp code, and it is up to the game engine to control how that code is evaluated. Often the engine will add a variety of support functions and variables to help manage and check various parts of the game's state. We won't go into on Lisp syntax and semantics here, you'll want to consult another tutorial for that as it is a very complex topic.
+``have-water`` here is a placeholder for some kind of Lisp expression. This expression can be arbitrary Lisp code, and it is up to the game engine to control how that code is evaluated. Often the engine will add a variety of support functions and variables to help manage and check various parts of the game's state. We won't go into Lisp syntax and semantics here, you'll want to consult another tutorial for that as it is a very complex topic.
 
 The above conditional block can also include additional branches, and simply executes the first branch for which the test passes:
 
@@ -437,7 +437,7 @@ To compile this we could re-use an existing instruction like ``eval``, but just 
 :: common lisp
 (defclass spawn-instruction (dialogue:instruction)
   ((type :initarg :type :accessor type)
-   (argfun :initarg :argfun :accessor argfun))
+   (argfun :initarg :argfun :accessor argfun)))
 
 (dialogue:define-simple-walker spawn spawn-instruction
   :type (first (arguments spawn))
