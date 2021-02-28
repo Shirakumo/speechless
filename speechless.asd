@@ -1,4 +1,4 @@
-(asdf:defsystem kandria-dialogue
+(asdf:defsystem speechless
   :components ((:file "package")
                (:file "components")
                (:file "syntax")

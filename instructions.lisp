@@ -1,4 +1,4 @@
-(in-package #:org.shirakumo.fraf.kandria.dialogue)
+(in-package #:org.shirakumo.speechless.dialogue)
 
 (defun print-instruction-type (instruction)
   (let ((type (string (type-of instruction))))

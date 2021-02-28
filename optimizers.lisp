@@ -1,4 +1,4 @@
-(in-package #:org.shirakumo.fraf.kandria.dialogue)
+(in-package #:org.shirakumo.fraf.speechless)
 
 (defvar *optimization-passes* '(jump-resolution-pass noop-elimination-pass))
 

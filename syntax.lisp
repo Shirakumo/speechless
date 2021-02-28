@@ -1,4 +1,4 @@
-(in-package #:org.shirakumo.fraf.kandria.dialogue.syntax)
+(in-package #:org.shirakumo.fraf.speechless.syntax)
 
 (defvar *default-directives*
   (list* 'placeholder 'emote

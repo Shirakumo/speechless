@@ -1,4 +1,4 @@
-(in-package #:org.shirakumo.fraf.kandria.dialogue.components)
+(in-package #:org.shirakumo.fraf.speechless.components)
 
 (docs:define-docs
   (type jump
@@ -133,7 +133,7 @@ See FORM")
 
 See FORM"))
 
-(in-package #:org.shirakumo.fraf.kandria.dialogue.syntax)
+(in-package #:org.shirakumo.fraf.speechless.syntax)
 
 (docs:define-docs
   (variable *default-directives*
@@ -197,7 +197,7 @@ Syntax: \"|\"")
 
 Syntax: \"[form if-clause | else-clause ]\""))
 
-(in-package #:org.shirakumo.fraf.kandria.dialogue)
+(in-package #:org.shirakumo.fraf.speechless)
 
 ;;; instructions.lisp
 (docs:define-docs

@@ -1,4 +1,4 @@
-(defpackage #:org.shirakumo.fraf.kandria.dialogue.components
+(defpackage #:org.shirakumo.fraf.speechless.components
   (:use #:cl)
   (:shadow #:go #:speed #:setf #:eval #:map)
   (:local-nicknames
@@ -27,10 +27,10 @@
    #:place
    #:eval))
 
-(defpackage #:org.shirakumo.fraf.kandria.dialogue.syntax
+(defpackage #:org.shirakumo.fraf.speechless.syntax
   (:use #:cl)
   (:local-nicknames
-   (#:components #:org.shirakumo.fraf.kandria.dialogue.components)
+   (#:components #:org.shirakumo.fraf.speechless.components)
    (#:mcomponents #:org.shirakumo.markless.components)
    (#:markless #:org.shirakumo.markless))
   (:export
@@ -46,11 +46,11 @@
    #:part-separator
    #:conditional-part))
 
-(defpackage #:org.shirakumo.fraf.kandria.dialogue
+(defpackage #:org.shirakumo.fraf.speechless
   (:use #:cl)
   (:shadow #:compile #:eval #:disassemble)
   (:local-nicknames
-   (#:components #:org.shirakumo.fraf.kandria.dialogue.components)
+   (#:components #:org.shirakumo.fraf.speechless.components)
    (#:mcomponents #:org.shirakumo.markless.components))
   ;; instructions.lisp
   (:export

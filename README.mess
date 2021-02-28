@@ -1,14 +1,14 @@
-# About XXXX
-This is a system implementing an advanced dialogue system that is capable of complex dialogue flow including choice trees and conditional branching. XXXX was first developed for the "Kandria"(link https://kandria.com) game, and has since been separated and made public in the hopes that it may find use elsewhere or inspire other developers to build similar systems.
+# About Speechless
+This is a system implementing an advanced dialogue system that is capable of complex dialogue flow including choice trees and conditional branching. Speechless was first developed for the "Kandria"(link https://kandria.com) game, and has since been separated and made public in the hopes that it may find use elsewhere or inspire other developers to build similar systems.
 
-XXXX is based on the "Markless"(link https://shirakumo.github.io/markless) document standard for its syntax and makes use of Markless' ability to be extended to add additional constructs useful for dialogue systems.
+Speechless is based on the "Markless"(link https://shirakumo.github.io/markless) document standard for its syntax and makes use of Markless' ability to be extended to add additional constructs useful for dialogue systems.
 
-XXXX can compile dialogue from its base textual form into an efficient instruction set, which is then executed when the game is run. Execution of the dialogue is completely engine-agnostic, and only requires some "simple integration"(#writing a client) with a client protocol to run.
+Speechless can compile dialogue from its base textual form into an efficient instruction set, which is then executed when the game is run. Execution of the dialogue is completely engine-agnostic, and only requires some "simple integration"(#writing a client) with a client protocol to run.
 
-Thanks to Markless' extensibility, XXXX can also be further extended to include additional syntax and constructs that may be useful for your particular game.
+Thanks to Markless' extensibility, Speechless can also be further extended to include additional syntax and constructs that may be useful for your particular game.
 
 ## User Manual
-This section covers the syntax and behaviour of XXXX dialogue. With any luck, after reading this you'll be able to write your own dialogue in XXXX. 
+This section covers the syntax and behaviour of Speechless dialogue. With any luck, after reading this you'll be able to write your own dialogue in Speechless. 
 
 ### Speech
 Let's jump in with the classic:
@@ -57,7 +57,7 @@ Finally, you can accentuate text by inserting pauses with en (``--``) and em (``
 | Helloooo-- world!
 ::
 
-After a line of text, XXXX will insert a prompt for the player to continue so that there's no risk of the text scrolling by too fast for the player to read it.
+After a line of text, Speechless will insert a prompt for the player to continue so that there's no risk of the text scrolling by too fast for the player to read it.
 
 :: markless
 ~ Hans
@@ -69,7 +69,7 @@ After a line of text, XXXX will insert a prompt for the player to continue so th
 That should cover things for speech. Let's move on to more advanced stuff.
 
 ### Player Choice
-XXXX allows you to make branching dialogue by presenting the player with a set of options. These options can even be gated behind checks. A basic choice is presented through a simple unordered list.
+Speechless allows you to make branching dialogue by presenting the player with a set of options. These options can even be gated behind checks. A basic choice is presented through a simple unordered list.
 
 :: markless
 ~ Hans
@@ -129,7 +129,7 @@ Choices can also be nested to create dialogue trees.
 As you might imagine, this can quickly get hard to see through, though. One way to make it a bit easier to read is to destructure the choices with labels and jumps.
 
 ### Labels and Jumps
-In order to control flow and to help you section your dialogue, XXXX includes constructs to give points within the dialogue a name and to jump to such a name from another point in the dialogue. Creating a label is simple enough:
+In order to control flow and to help you section your dialogue, Speechless includes constructs to give points within the dialogue a name and to jump to such a name from another point in the dialogue. Creating a label is simple enough:
 
 :: markless
 > start
@@ -248,7 +248,7 @@ Note that all labels -- regardless of the syntax used to define them -- are glob
 Lets move on to another advanced topic, conditions and branching.
 
 ### Conditions
-Sometimes dialogue needs to react to game state. Choices might need to be hidden, or a character might need to react in a different way depending on what the player has done so far. XXXX offers a couple of ways to do this. The most basic way is the conditional block.
+Sometimes dialogue needs to react to game state. Choices might need to be hidden, or a character might need to react in a different way depending on what the player has done so far. Speechless offers a couple of ways to do this. The most basic way is the conditional block.
 
 :: markless
 ? have-water
@@ -310,7 +310,7 @@ Note the two spaces on the seemingly empty line to continue the list item.
 Both forms of conditionals can be nested arbitrarily, too, though you cannot nest a conditional block inside an inline conditional.
 
 ### Evaluation
-Finally, often it's desired to cause changes to game state, or include dialogue particular to game state. Since integrating with game state is typically extremely specific to the game and engine being made at the time, XXXX just includes basic constructs to splice a Lisp value into text, and to evaluate arbitrary Lisp code.
+Finally, often it's desired to cause changes to game state, or include dialogue particular to game state. Since integrating with game state is typically extremely specific to the game and engine being made at the time, Speechless just includes basic constructs to splice a Lisp value into text, and to evaluate arbitrary Lisp code.
 
 While not ideal from a user perspective as it forces you to learn some Lisp, typically engine coders can provide enough shorthand functions for the dialogue system such that dialogue authors don't have to learn a lot of Lisp to get going.
 
@@ -329,7 +329,7 @@ Dialogue also often needs to trigger changes in game state, be that in response 
 Again, which functions and variables are available depends on the game and engine being built. Please consult your internal documentation on that.
 
 ### Misc
-Markless includes a few additional constructs that can be helpful with XXXX, too. For instance, comments can be used to write notes for yourself about what a piece of dialogue is meant to do or in which context it occurs.
+Markless includes a few additional constructs that can be helpful with Speechless, too. For instance, comments can be used to write notes for yourself about what a piece of dialogue is meant to do or in which context it occurs.
 
 :: markless
 ; This is a note to myself and won't have any effect!
@@ -343,12 +343,12 @@ You can also emit warnings or even errors if there's a problem in the dialogue a
 
 Again, consult the "Markless documentation"(http://shirakumo.github.io/markless/) for a complete outline of the Markless syntax and semantics.
 
-This should cover everything that's supported by XXXX out of the box. Your engine may add extra constructs and support syntax. To see how to do that, please "read on"(#extension).
+This should cover everything that's supported by Speechless out of the box. Your engine may add extra constructs and support syntax. To see how to do that, please "read on"(#extension).
 
 ## Writing a Client
-The dialogue system in XXXX is game engine agnostic. This means that you get full control over the user input and display of the dialogue.
+The dialogue system in Speechless is game engine agnostic. This means that you get full control over the user input and display of the dialogue.
 
-Before we can get started on implementing the client, you should know that XXXX is a compiled language. Thus you need to compile the dialogue to an ``assembly`` before it can be executed. To do so, you can simply call ``compile*``. If you would like to customise the lexical environment for forms used in the dialogue however, you should also create a subclass of ``assembly``, implement a method on ``wrap-lexenv``, and then pass an instance of that assembly to ``compile*``. All Lisp forms within the dialogue are also compiled down to functions, so no run-time ``eval`` or compilation occurs when dialogue is actually executed.
+Before we can get started on implementing the client, you should know that Speechless is a compiled language. Thus you need to compile the dialogue to an ``assembly`` before it can be executed. To do so, you can simply call ``compile*``. If you would like to customise the lexical environment for forms used in the dialogue however, you should also create a subclass of ``assembly``, implement a method on ``wrap-lexenv``, and then pass an instance of that assembly to ``compile*``. All Lisp forms within the dialogue are also compiled down to functions, so no run-time ``eval`` or compilation occurs when dialogue is actually executed.
 
 :: common lisp
 (defclass assembly (dialogue:assembly) ())
@@ -385,7 +385,7 @@ If you still need help implementing it, you can check the "Kandria sources"(http
 If you have trouble with dialogue execution and it doesn't behave as you expect, you can try debugging it by passing the assembly to ``disassemble``. This behaves similar to ``cl:disassemble`` and will print out the assembled instructions in their execution sequence.
 
 ## Extension
-If desired you can add your own syntax constructs to XXXX. To do so you will need to implement a corresponding syntax tree ``component``, a ``directive`` to parse it, an ``instruction`` to execute it, and possibly a ``request`` to expose whatever client functionality you need.
+If desired you can add your own syntax constructs to Speechless. To do so you will need to implement a corresponding syntax tree ``component``, a ``directive`` to parse it, an ``instruction`` to execute it, and possibly a ``request`` to expose whatever client functionality you need.
 
 Before adding new syntax, you should familiarise yourself with the Markless standard terminology, and the "cl-markless implementation"(https://shirakumo.github.io/cl-markless). As an example here though we'll assume you want to implement a new "singular line directive" -- something that has a prefix at the beginning of the line and consumes the whole line, like ``~ ``.
 
@@ -423,7 +423,7 @@ Next we need to define a directive that will parse the syntax to the new compone
 Next we need to add our directive onto the list of used directives for the dialogue.
 
 :: common lisp
-(pushnew 'spawn-directive org.shirakumo.fraf.XXXX.syntax:*default-directives*)
+(pushnew 'spawn-directive org.shirakumo.fraf.speechless.syntax:*default-directives*)
 ::
 
 Now that that's done we can already parse our new syntax!

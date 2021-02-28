@@ -1,4 +1,4 @@
-(in-package #:org.shirakumo.fraf.kandria.dialogue.components)
+(in-package #:org.shirakumo.fraf.speechless.components)
 
 (defclass jump (components:block-component)
   ((target :initarg :target :initform (error "TARGET required") :accessor components:target)))
