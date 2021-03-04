@@ -114,9 +114,8 @@
                              :target (1+ ip))))
 
 (defmethod execute ((instruction dispatch) (vm vm) ip)
-  (if (funcall (func instruction))
-      (first (targets instruction))
-      (second (targets instruction))))
+  (nth (funcall (func instruction))
+       (targets instruction)))
 
 (defmethod execute ((instruction conditional) (vm vm) ip)
   (loop for (func . target) in (clauses instruction)

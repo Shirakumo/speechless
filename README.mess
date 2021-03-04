@@ -309,6 +309,14 @@ Note the two spaces on the seemingly empty line to continue the list item.
 
 Both forms of conditionals can be nested arbitrarily, too, though you cannot nest a conditional block inside an inline conditional.
 
+The inline conditional can also be used for a shorthand of a random text:
+
+:: markless
+| [? Hey|Hey there|Hello!|Heya]
+::
+
+When this dialogue is run, it'll randomly pick one of ``Hey``, ``Hey there``, ``Hello!``, and ``Heya`` and display that.
+
 ### Evaluation
 Finally, often it's desired to cause changes to game state, or include dialogue particular to game state. Since integrating with game state is typically extremely specific to the game and engine being made at the time, Speechless just includes basic constructs to splice a Lisp value into text, and to evaluate arbitrary Lisp code.
 

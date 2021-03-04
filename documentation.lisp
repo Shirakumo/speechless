@@ -261,7 +261,7 @@ function and a jump target.
 See CONDITIONAL")
   
   (type dispatch
-    "An instruction that represents an if/else dispatch.
+    "An instruction that represents a branching dispatch.
 
 See FUNC
 See TARGETS")

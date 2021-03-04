@@ -131,9 +131,16 @@
 (defmethod walk ((string string) (assembly assembly))
   (emit (make-instance 'text :text string) assembly))
 
+(defun random-indicator-p (form)
+  (and (symbolp form) (equal "?" (symbol-name form))))
+
 (defmethod walk ((component components:conditional-part) (assembly assembly))
-  (let ((dispatch (make-instance 'dispatch :func (compile-form assembly (components:form component)) 
-                                           :label component)))
+  (let* ((len (length (components:choices component)))
+         (func (if (random-indicator-p (components:form component))
+                   (lambda () (print (random len)))
+                   (compile-form assembly `(if ,(components:form component) 0 1))))
+         (dispatch (make-instance 'dispatch :func func
+                                            :label component)))
     (emit dispatch assembly)
     (let* ((end (make-instance 'noop))
            (targets (loop for choice across (components:choices component)
