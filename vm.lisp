@@ -120,7 +120,8 @@
 (defmethod execute ((instruction conditional) (vm vm) ip)
   (loop for (func . target) in (clauses instruction)
         do (when (funcall func)
-             (return target))))
+             (return target))
+        finally (error "WTF: No valid branch found in conditional.")))
 
 (defmethod execute ((instruction choose) (vm vm) ip)
   (let ((choices (nreverse (shiftf (choices vm) ()))))
