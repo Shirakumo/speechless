@@ -163,6 +163,9 @@
 (define-markup-walker mcomponents:bold
   (list :bold T))
 
+(define-markup-walker mcomponents:underline
+  (list :underline T))
+
 (define-markup-walker mcomponents:italic
   (list :italic T))
 
