@@ -62,12 +62,14 @@
            assembly)))
 
 (defmacro define-markup-walker (component &body markup)
-  `(progn (defmethod walk :before ((,component ,component) (assembly assembly))
-            (emit (make-instance 'begin-mark :label ,component
-                                             :markup (progn ,@markup))
-                  assembly))
-          (defmethod walk :after ((,component ,component) (assembly assembly))
-            (emit (make-instance 'end-mark) assembly))))
+  `(defmethod walk :around ((,component ,component) (assembly assembly))
+     (let ((end (make-instance 'end-mark)))
+       (emit (make-instance 'begin-mark :label ,component
+                                        :markup (progn ,@markup)
+                                        :end end)
+             assembly)
+       (call-next-method)
+       (emit end assembly))))
 
 (defmethod walk ((component mcomponents:parent-component) (assembly assembly))
   (loop for child across (mcomponents:children component)
@@ -161,37 +163,37 @@
   (emit (make-instance 'noop :label component) assembly))
 
 (define-markup-walker mcomponents:bold
-  (list :bold T))
+  '((:bold T)))
 
 (define-markup-walker mcomponents:underline
-  (list :underline T))
+  '((:underline T)))
 
 (define-markup-walker mcomponents:italic
-  (list :italic T))
+  '((:italic T)))
 
 (define-markup-walker mcomponents:strikethrough
-  (list :strikethrough T))
+  '((:strikethrough T)))
 
 (define-markup-walker mcomponents:supertext
-  (list :supertext T))
+  '((:supertext T)))
 
 (define-markup-walker mcomponents:subtext
-  (list :subtext T))
+  '((:subtext T)))
 
 (define-markup-walker mcomponents:compound
   (loop for option in (mcomponents:options mcomponents:compound)
-        append (etypecase option
-                 (mcomponents:bold-option '(:bold T))
-                 (mcomponents:italic-option '(:italic T))
-                 (mcomponents:underline-option '(:underline T))
-                 (mcomponents:strikethrough-option '(:strikethrough T))
-                 (mcomponents:spoiler-option '(:spoiler T))
-                 (mcomponents:font-option (list :font (mcomponents:font-family option)))
-                 (mcomponents:color-option (list :color (list
-                                                         (mcomponents:red option)
-                                                         (mcomponents:green option)
-                                                         (mcomponents:blue option))))
-                 (mcomponents:size-option (list :size (mcomponents:size option))))))
+        collect (etypecase option
+                  (mcomponents:bold-option '(:bold T))
+                  (mcomponents:italic-option '(:italic T))
+                  (mcomponents:underline-option '(:underline T))
+                  (mcomponents:strikethrough-option '(:strikethrough T))
+                  (mcomponents:spoiler-option '(:spoiler T))
+                  (mcomponents:font-option (list :font (mcomponents:font-family option)))
+                  (mcomponents:color-option (list :color (list
+                                                          (mcomponents:red option)
+                                                          (mcomponents:green option)
+                                                          (mcomponents:blue option))))
+                  (mcomponents:size-option (list :size (mcomponents:size option))))))
 
 (define-simple-walker components:jump jump
   :target (resolved-target components:jump))

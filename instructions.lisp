@@ -124,14 +124,15 @@
   ())
 
 (defclass begin-mark (instruction)
-  ((markup :initarg :markup :accessor markup)))
+  ((markup :initarg :markup :accessor markup)
+   (end :initarg :end :accessor end)))
 
 (defmethod disassemble ((instruction begin-mark))
   (print-instruction-type instruction)
   (format T "~s" (markup instruction)))
 
 (defclass end-mark (instruction)
-  ())
+  ((markup :accessor markup)))
 
 (defclass clear (instruction)
   ())
