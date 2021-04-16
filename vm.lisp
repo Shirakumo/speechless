@@ -141,12 +141,12 @@
   (1+ ip))
 
 (defmethod execute ((instruction begin-mark) (vm vm) ip)
-  (push (list (markup instruction) (file-position (text-buffer vm)) NIL)
+  (push (list* (file-position (text-buffer vm)) NIL (markup instruction))
         (markup vm))
   (1+ ip))
 
 (defmethod execute ((instruction end-mark) (vm vm) ip)
-  (setf (third (first (markup vm)))
+  (setf (second (first (markup vm)))
         (file-position (text-buffer vm)))
   (1+ ip))
 
