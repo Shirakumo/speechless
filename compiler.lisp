@@ -139,7 +139,7 @@
 (defmethod walk ((component components:conditional-part) (assembly assembly))
   (let* ((len (length (components:choices component)))
          (func (if (random-indicator-p (components:form component))
-                   (lambda () (print (random len)))
+                   (lambda () (random len))
                    (compile-form assembly `(if ,(components:form component) 0 1))))
          (dispatch (make-instance 'dispatch :func func
                                             :label component)))
