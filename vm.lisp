@@ -176,3 +176,31 @@
   (suspend vm (make-instance 'source-request
                              :target (1+ ip)
                              :name (name instruction))))
+
+(defun simulate (thing)
+  (let ((vm (run (compile* thing) (make-instance 'vm)))
+        (ip 0))
+    (macrolet ((with-types (thing &body clauses)
+                 `(progn
+                    ,@ (loop for (type . body) in clauses
+                             collect `(when (typep ,thing ',type)
+                                        ,@body)))))
+      (loop for request = (resume vm ip)
+            do (with-types request
+                 (text-request
+                  (format T "~a~@[[~a]~]" (text request) (markup request)))
+                 (emote-request
+                  (format T "(~a)" (emote request)))
+                 (source-request
+                  (format T "~&- ~a~%" (name request)))
+                 (clear-request
+                  (format T "~%"))
+                 (pause-request
+                  (sleep (duration request)))
+                 (choice-request
+                  (format T "~&  Choose ~{~a~^, ~}:~%> " (choices request))
+                  (setf ip (aref (targets request) (read))))
+                 (target-request
+                  (setf ip (target request)))
+                 (end-request
+                  (return)))))))
