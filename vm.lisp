@@ -178,7 +178,10 @@
                              :name (name instruction))))
 
 (defun simulate (thing)
-  (let ((vm (run (compile* thing) (make-instance 'vm)))
+  (let ((vm (run (typecase thing
+                   (assembly thing)
+                   (T (compile* thing)))
+                 (make-instance 'vm)))
         (ip 0))
     (macrolet ((with-types (thing &body clauses)
                  `(progn
