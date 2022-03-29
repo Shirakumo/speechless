@@ -137,6 +137,19 @@
   (and (symbolp form) (equal "?" (symbol-name form))))
 
 (defmethod walk ((component components:conditional-part) (assembly assembly))
+  ;; Strip shitty spaces
+  (loop for choice across (components:choices component)
+        for e = (1- (length choice))
+        do (case (length choice)
+             (0)
+             (1
+              (when (typep (aref choice 0) 'string)
+                (setf (aref choice 0) (string-trim " " (aref choice 0)))))
+             (T
+              (when (typep (aref choice 0) 'string)
+                (setf (aref choice 0) (string-left-trim " " (aref choice 0))))
+              (when (typep (aref choice e) 'string)
+                (setf (aref choice e) (string-right-trim " " (aref choice e)))))))
   (let* ((len (length (components:choices component)))
          (func (if (random-indicator-p (components:form component))
                    (lambda () (random len))
