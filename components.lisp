@@ -3,6 +3,10 @@
 (defclass jump (components:block-component)
   ((target :initarg :target :initform (error "TARGET required") :accessor components:target)))
 
+(defmethod print-object ((jump jump) stream)
+  (print-unreadable-object (jump stream :type T)
+    (format stream "~a" (components:target jump))))
+
 (defclass conditional (components:block-component)
   ((clauses :initform (make-array 0 :adjustable T :fill-pointer T) :accessor clauses)))
 
@@ -18,11 +22,23 @@
 (defclass source (components:blockquote-header)
   ((name :initarg :name :initform (error "NAME required") :accessor name)))
 
+(defmethod print-object ((source source) stream)
+  (print-unreadable-object (source stream :type T)
+    (format stream "~a" (name source))))
+
 (defclass placeholder (components:inline-component)
   ((form :initarg :form :initform (error "FORM required") :accessor form)))
 
+(defmethod print-object ((placeholder placeholder) stream)
+  (print-unreadable-object (placeholder stream :type T)
+    (format stream "~a" (form placeholder))))
+
 (defclass emote (components:inline-component)
   ((emote :initarg :emote :initform (error "EMOTE required") :accessor emote)))
+
+(defmethod print-object ((emote emote) stream)
+  (print-unreadable-object (emote stream :type T)
+    (format stream "~a" (emote emote))))
 
 (defclass conditional-part (components:inline-component)
   ((form :initarg :form :initform (error "FORM required") :accessor form)
@@ -45,20 +61,44 @@
 (defclass go (fake-instruction)
   ((target :initarg :target :initform (error "TARGET required") :accessor components:target)))
 
+(defmethod print-object ((go go) stream)
+  (print-unreadable-object (go stream :type T)
+    (format stream "~a" (components:target go))))
+
 (defclass speed (fake-instruction)
   ((speed :initarg :speed :initform (error "SPEED required") :accessor speed)))
+
+(defmethod print-object ((speed speed) stream)
+  (print-unreadable-object (speed stream :type T)
+    (format stream "~a" (speed speed))))
 
 (defclass camera (fake-instruction)
   ((action :initarg :action :initform (error "ACTION required") :accessor action)
    (arguments :initarg :arguments :initform () :accessor arguments)))
 
+(defmethod print-object ((camera camera) stream)
+  (print-unreadable-object (camera stream :type T)
+    (format stream "~s~{ ~s~}" (action camera) (arguments camera))))
+
 (defclass move (fake-instruction)
   ((entity :initarg :entity :initform (error "ENTITY required") :accessor entity)
    (target :initarg :target :initform (error "TARGET required") :accessor components:target)))
+
+(defmethod print-object ((move move) stream)
+  (print-unreadable-object (move stream :type T)
+    (format stream "~s -> ~s" (entity move) (components:target move))))
 
 (defclass setf (fake-instruction)
   ((place :initarg :place :initform (error "PLACE required") :accessor place)
    (form :initarg :form :initform (error "FORM required") :accessor form)))
 
+(defmethod print-object ((setf setf) stream)
+  (print-unreadable-object (setf stream :type T)
+    (format stream "~s ~s" (place setf) (form setf))))
+
 (defclass eval (fake-instruction)
   ((form :initarg :form :initform (error "FORM required") :accessor form)))
+
+(defmethod print-object ((eval eval) stream)
+  (print-unreadable-object (eval stream :type T)
+    (format stream "~s" (form eval))))
