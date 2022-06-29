@@ -3,7 +3,8 @@
 (defvar *root*)
 
 (defun parse (thing)
-  (cl-markless:parse thing (make-instance 'org.shirakumo.fraf.speechless.syntax:parser)))
+  (let ((parser (make-instance 'org.shirakumo.fraf.speechless.syntax:parser)))
+    (values (cl-markless:parse thing parser) parser)))
 
 (defmethod compile ((thing mcomponents:component) assembly)
   (walk thing assembly))

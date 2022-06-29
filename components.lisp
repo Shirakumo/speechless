@@ -102,3 +102,6 @@
 (defmethod print-object ((eval eval) stream)
   (print-unreadable-object (eval stream :type T)
     (format stream "~s" (form eval))))
+
+(defmethod markless:output-component ((component eval) (stream stream) (_ markless:debug))
+  (format stream " ~a ~s" (type-of component) (form component)))
