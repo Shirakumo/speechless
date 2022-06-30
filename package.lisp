@@ -52,6 +52,15 @@
   (:local-nicknames
    (#:components #:org.shirakumo.fraf.speechless.components)
    (#:mcomponents #:org.shirakumo.markless.components))
+  ;; diff.lisp
+  (:export
+   #:diff-mismatch
+   #:location
+   #:message
+   #:differ
+   #:define-diff
+   #:diff
+   #:localisation-differ)
   ;; instructions.lisp
   (:export
    #:instruction
