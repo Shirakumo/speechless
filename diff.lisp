@@ -175,3 +175,43 @@
 
 (define-diff localisation-differ components:eval (a b)
   (compare "Expected form~%  ~s~%but got~%  ~s" (components:form b) (components:form a)))
+
+(defun main ()
+  #+sbcl (sb-ext:disable-debugger)
+  (let* ((args (uiop:command-line-arguments))
+         (command (or (pop args) "help")))
+    (handler-case
+        (handler-bind ((warning #'muffle-warning))
+          (cond ((string-equal command "help")
+                 (format *error-output* "Speechless command line utility V~a
+
+Usage:
+~a diff new-file base-file
+  Compares the contents of NEW-FILE against BASE-FILE and
+  emits warnings for any semantic changes that would alter
+  the flow or execution of the speechless dialogue.
+~:*
+~a parse file
+  Emits the syntax tree of FILE in a human-readable way.
+  Can be used to debug the syntax of a file.
+~:*
+~a compile file
+  Emits the assembly of FILE in a human-readable way.
+  Can be used to debug the resulting program flow of a file.
+~:*
+~a help
+  Shows this help text
+"
+                         #.(asdf:component-version (asdf:find-system "speechless")) (uiop:argv0)))
+                ((string-equal command "parse")
+                 (cl-markless:output (parse (uiop:parse-native-namestring (pop args))) :format 'cl-markless:debug :target *standard-output*))
+                ((string-equal command "compile")
+                 (disassemble (compile (parse (uiop:parse-native-namestring (pop args))) T)))
+                ((string-equal command "diff")
+                 (handler-bind ((warning (lambda (w)
+                                           (format *error-output* "~&~a~%" w))))
+                   (diff (uiop:parse-native-namestring (pop args)) (uiop:parse-native-namestring (pop args)))))
+                (T
+                 (error "No such command ~a" command))))
+      (error (e)
+        (format *error-output* "Error: ~a" e)))))

@@ -13,6 +13,12 @@
   :homepage "https://shirakumo.github.io/speechless"
   :bug-tracker "https://github.com/shirakumo/speechless/issues"
   :source-control (:git "https://github.com/shirakumo/speechless.git")
+  :build-operation "program-op"
+  :build-pathname
+  #+windows "speechless.exe"
+  #+linux "speechless.run"
+  #-(or windows linux) "speechless.o"
+  :entry-point "org.shirakumo.fraf.speechless::main"
   :serial T
   :components ((:file "package")
                (:file "components")
@@ -21,6 +27,7 @@
                (:file "compiler")
                (:file "optimizers")
                (:file "vm")
+               (:file "diff")
                (:file "documentation"))
   :depends-on (:cl-markless
                :documentation-utils))
