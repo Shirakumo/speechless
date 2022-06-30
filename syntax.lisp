@@ -16,25 +16,26 @@
   (:default-initargs :directives *default-directives*
                      :instruction-types *default-instruction-types*))
 
+(defmacro mark-component ()
+  `(let* ((stack (markless:stack parser))
+          (component (markless:stack-entry-component (markless:stack-top stack))))
+     (typecase component
+       (mcomponents:parent-component
+        (let* ((children (mcomponents:children component))
+               (prevlen (length children)))
+          (prog1 (call-next-method)
+            (loop for i from prevlen below (length children)
+                  unless (gethash (aref children i) (location-table parser))
+                  do (setf (gethash (aref children i) (location-table parser))
+                           (list markless::*current-line-number* cursor))))))
+       (T
+        (call-next-method)))))
+
 (defmethod markless:begin :around (directive (parser parser) line cursor)
-  (let* ((stack (markless:stack parser))
-         (children (mcomponents:children (markless:stack-entry-component (markless:stack-top stack))))
-         (prevlen (length children)))
-    (prog1 (call-next-method)
-      (loop for i from prevlen below (length children)
-            unless (gethash (aref children i) (location-table parser))
-            do (setf (gethash (aref children i) (location-table parser))
-                     (list markless::*current-line-number* cursor))))))
+  (mark-component))
 
 (defmethod markless:invoke :around (directive component (parser parser) line cursor)
-  (let* ((stack (markless:stack parser))
-         (children (mcomponents:children (markless:stack-entry-component (markless:stack-top stack))))
-         (prevlen (length children)))
-    (prog1 (call-next-method)
-      (loop for i from prevlen below (length children)
-            unless (gethash (aref children i) (location-table parser))
-            do (setf (gethash (aref children i) (location-table parser))
-                     (list markless::*current-line-number* cursor))))))
+  (mark-component))
 
 (defclass jump (markless:singular-line-directive)
   ())

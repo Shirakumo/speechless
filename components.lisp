@@ -1,7 +1,7 @@
 (in-package #:org.shirakumo.fraf.speechless.components)
 
-(defclass jump (components:block-component)
-  ((target :initarg :target :initform (error "TARGET required") :accessor components:target)))
+(defclass jump (components:block-component components:targeted)
+  ())
 
 (defmethod print-object ((jump jump) stream)
   (print-unreadable-object (jump stream :type T)
@@ -58,8 +58,8 @@
 
 (defclass fake-instruction (components:instruction) ())
 
-(defclass go (fake-instruction)
-  ((target :initarg :target :initform (error "TARGET required") :accessor components:target)))
+(defclass go (fake-instruction components:targeted)
+  ())
 
 (defmethod print-object ((go go) stream)
   (print-unreadable-object (go stream :type T)
