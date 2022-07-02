@@ -28,6 +28,7 @@
                (:file "optimizers")
                (:file "vm")
                (:file "diff")
+               (:file "printer")
                (:file "documentation"))
   :depends-on (:cl-markless
                :documentation-utils))

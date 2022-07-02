@@ -51,7 +51,8 @@
   (:shadow #:compile #:eval #:disassemble)
   (:local-nicknames
    (#:components #:org.shirakumo.fraf.speechless.components)
-   (#:mcomponents #:org.shirakumo.markless.components))
+   (#:mcomponents #:org.shirakumo.markless.components)
+   (#:markless #:org.shirakumo.markless))
   ;; diff.lisp
   (:export
    #:diff-mismatch
