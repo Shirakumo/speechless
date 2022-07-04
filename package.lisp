@@ -107,6 +107,11 @@
    #:optimize-instructions
    #:jump-resolution-pass
    #:noop-elimination-pass)
+  ;; printer.lisp
+  (:export
+   #:speechless
+   #:highlighted
+   #:highlight)
   ;; vm.lisp
   (:export
    #:request
