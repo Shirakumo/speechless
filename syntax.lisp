@@ -93,7 +93,7 @@
                                   (components:clauses component)))
             (vector-push-extend (cons T (make-array 0 :adjustable T :fill-pointer T))
                                 (components:clauses component)))
-        (length line))))
+        (1+ (length line)))))
 
 (defclass source (markless:blockquote-header)
   ())
