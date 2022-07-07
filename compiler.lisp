@@ -7,7 +7,8 @@
     (values (cl-markless:parse thing parser) parser)))
 
 (defmethod compile ((thing mcomponents:component) assembly)
-  (walk thing assembly))
+  (walk thing assembly)
+  assembly)
 
 (defmethod compile (thing assembly)
   (compile (parse thing) assembly))
@@ -46,14 +47,13 @@
 
 (defgeneric walk (ast assembly))
 
-(defmethod walk (thing assembly))
-
-(defmethod walk :around (thing (assembly (eql T)))
-  (walk thing (make-instance 'assembly)))
-
-(defmethod walk :around (thing assembly)
-  (call-next-method)
+(defmethod walk (thing assembly)
   assembly)
+
+(defmethod walk (thing (assembly (eql T)))
+  (let ((assembly (make-instance 'assembly)))
+    (walk thing assembly)
+    assembly))
 
 (defmacro define-simple-walker (component instruction &rest initargs)
   `(defmethod walk ((,component ,component) (assembly assembly))
