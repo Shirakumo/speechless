@@ -69,6 +69,15 @@
 (defmethod run-pass ((pass noop-elimination-pass) (instruction jump))
   (setf (target instruction) (find-new-index (target instruction))))
 
+;; Rewrite noops themselves to pass the label on to following instruction
+(defmethod run-pass ((pass noop-elimination-pass) (instruction noop))
+  (when (label instruction)
+    (let ((new (loop for i from (index instruction) below (length (instructions *root*))
+                     do (unless (typep (aref (instructions *root*) i) 'noop)
+                          (return i))
+                     finally (return (index instruction)))))
+      (setf (label (aref (instructions *root*) new)) (label instruction)))))
+
 (defmethod run-pass ((pass noop-elimination-pass) (instruction conditional))
   (loop for clause in (clauses instruction)
         do (setf (cdr clause) (find-new-index (cdr clause)))))
