@@ -21,16 +21,23 @@
   assembly)
 
 (defun compile* (thing &optional (assembly T))
-  (optimize-instructions (compile thing assembly)))
+  (multiple-value-bind (assembly root) (compile thing assembly)
+    (let ((*root* root))
+      (optimize-instructions assembly))))
 
 (defclass jump-resolution-pass (pass)
   ((label-map :initform (make-hash-table :test 'eq) :reader label-map)))
+
+(defun find-label (component)
+  (loop for key being the hash-keys of (mcomponents:labels *root*)
+        for value being the hash-values of (mcomponents:labels *root*)
+        do (when (eql value component) (return key))))
 
 (defmethod run-pass :before ((pass jump-resolution-pass) (assembly assembly))
   ;; Gather all labels into a table
   (loop for instruction across (instructions assembly)
         do (setf (gethash (label instruction) (label-map pass)) (index instruction))
-           (setf (label instruction) instruction)))
+           (setf (label instruction) (find-label (label instruction)))))
 
 ;; Resolve jump targets
 (defmethod run-pass ((pass jump-resolution-pass) (instruction jump))

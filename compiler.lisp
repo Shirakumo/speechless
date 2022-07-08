@@ -8,7 +8,7 @@
 
 (defmethod compile ((thing mcomponents:component) assembly)
   (walk thing assembly)
-  assembly)
+  (values assembly thing))
 
 (defmethod compile (thing assembly)
   (compile (parse thing) assembly))
