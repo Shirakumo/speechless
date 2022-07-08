@@ -25,6 +25,11 @@
 (defmethod disassemble ((instruction instruction))
   (print-instruction-type instruction))
 
+(defmethod disassemble :around ((instruction instruction))
+  (call-next-method)
+  (when (label instruction)
+    (format T "~80t[~a]" (label instruction))))
+
 (defclass noop (instruction)
   ())
 
