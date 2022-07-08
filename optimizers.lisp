@@ -76,7 +76,9 @@
                      do (unless (typep (aref (instructions *root*) i) 'noop)
                           (return i))
                      finally (return (index instruction)))))
-      (setf (label (aref (instructions *root*) new)) (label instruction)))))
+      (unless (label (aref (instructions *root*) new))
+        (setf (label (aref (instructions *root*) new)) (label instruction))
+        (setf (label instruction) NIL)))))
 
 (defmethod run-pass ((pass noop-elimination-pass) (instruction conditional))
   (loop for clause in (clauses instruction)
@@ -89,7 +91,8 @@
   ;; Remove any noops from the instructions
   (setf (instructions assembly)
         (delete-if (lambda (instruction)
-                     (typep instruction 'noop))
+                     (and (typep instruction 'noop)
+                          (null (label instruction))))
                    (instructions assembly))))
 
 ;; TODO: dead code elimination
