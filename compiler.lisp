@@ -35,7 +35,7 @@
 (defmethod disassemble ((assembly assembly))
   (loop for i from 0
         for instruction across (instructions assembly)
-        do (format T "~&~2d  " i)
+        do (format T "~&~2d  " (index instruction))
            (disassemble instruction)))
 
 (defmethod next-index ((assembly assembly))
