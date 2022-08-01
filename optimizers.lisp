@@ -59,26 +59,25 @@
 
 (defmethod run-pass :before ((pass noop-elimination-pass) (assembly assembly))
   ;; Map all instruction indices to ones as if noops did not exist.
+  ;; This will also carry over labels of noops to the next fitting instruction
+  ;; and retain noops who need to continue existing to carry the label.
   (loop with i = 0
+        with carry = NIL
         for instruction across (instructions assembly)
-        do (unless (typep instruction 'noop)
-             (setf (index instruction) i)
-             (incf i))))
+        do (setf (index instruction) i)
+           (cond ((not (typep instruction 'noop))
+                  (shiftf (label instruction) carry NIL)
+                  (incf i))
+                 ((null (label instruction)))
+                 (carry
+                  (rotatef (label instruction) carry)
+                  (incf i))
+                 (T
+                  (shiftf carry (label instruction) NIL)))))
 
 ;; Rewrite jumps to such that they point to the index after any noops
 (defmethod run-pass ((pass noop-elimination-pass) (instruction jump))
   (setf (target instruction) (find-new-index (target instruction))))
-
-;; Rewrite noops themselves to pass the label on to following instruction
-(defmethod run-pass ((pass noop-elimination-pass) (instruction noop))
-  (when (label instruction)
-    (let ((new (loop for i from (index instruction) below (length (instructions *root*))
-                     do (unless (typep (aref (instructions *root*) i) 'noop)
-                          (return i))
-                     finally (return (index instruction)))))
-      (unless (label (aref (instructions *root*) new))
-        (setf (label (aref (instructions *root*) new)) (label instruction))
-        (setf (label instruction) NIL)))))
 
 (defmethod run-pass ((pass noop-elimination-pass) (instruction conditional))
   (loop for clause in (clauses instruction)
