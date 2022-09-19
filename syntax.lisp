@@ -4,7 +4,7 @@
   (list* 'placeholder 'emote
          'conditional-part 'part-separator
          'jump 'label 'conditional 'source
-         (remove-if (lambda (s) (find s '(markless:code markless:blockquote-header)))
+         (remove-if (lambda (s) (find s '(markless:code markless:blockquote-header markless:ordered-list)))
                     markless:*default-directives*)))
 
 (defvar *default-instruction-types*
