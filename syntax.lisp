@@ -4,7 +4,8 @@
   (list* 'placeholder 'emote
          'conditional-part 'part-separator
          'jump 'label 'conditional 'source
-         (remove-if (lambda (s) (find s '(markless:code markless:blockquote-header markless:ordered-list)))
+         'manual-newline
+         (remove-if (lambda (s) (find s '(markless:code markless:blockquote-header markless:ordered-list markless:newline)))
                     markless:*default-directives*)))
 
 (defvar *default-instruction-types*
@@ -228,3 +229,12 @@
                (setf cursor next)
                (push form forms)))
     (make-instance (class-of proto) :form `(progn ,@(reverse forms)))))
+
+(defclass manual-newline (markless:newline)
+  ())
+
+(defmethod markless:begin ((_ manual-newline) parser line cursor)
+  (let* ((stack (markless:stack parser))
+         (children (mcomponents:children (markless:stack-entry-component (markless:stack-top stack)))))
+    (vector-push-extend (make-instance 'components:manual-newline) children)
+    (+ 3 cursor)))

@@ -223,6 +223,9 @@
   (emit (make-instance 'confirm :label component) assembly)
   (emit (make-instance 'clear :label component) assembly))
 
+(defmethod walk ((component components:manual-newline) (assembly assembly))
+  (emit (make-instance 'text :text (string #\Linefeed)) assembly))
+
 (define-simple-walker components:eval eval
   :func (compile-form assembly (components:form components:eval)))
 

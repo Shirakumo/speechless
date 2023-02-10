@@ -5,6 +5,7 @@
    (#:markless #:org.shirakumo.markless)
    (#:components #:org.shirakumo.markless.components))
   (:export
+   #:manual-newline
    #:jump
    #:placeholder
    #:form
@@ -44,7 +45,8 @@
    #:placeholder
    #:emote
    #:part-separator
-   #:conditional-part))
+   #:conditional-part
+   #:manual-newline))
 
 (defpackage #:org.shirakumo.fraf.speechless
   (:use #:cl)

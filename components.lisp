@@ -1,5 +1,8 @@
 (in-package #:org.shirakumo.fraf.speechless.components)
 
+(defclass manual-newline (components:newline)
+  ())
+
 (defclass jump (components:block-component components:targeted)
   ())
 
