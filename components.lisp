@@ -22,6 +22,11 @@
              (loop for child across children
                    do (markless:output-component child s f)))))
 
+(defmethod markless:count-words-by + (method (conditional conditional))
+  (loop for (predicate . children) across (clauses conditional)
+        sum (loop for child across children
+                  sum (markless:count-words-by method child))))
+
 (defclass source (components:blockquote-header)
   ((name :initarg :name :initform (error "NAME required") :accessor name)))
 
@@ -58,6 +63,11 @@
                    do (markless:output-component child s f))
              (let ((markless::*level* (1- markless::*level*)))
                (markless:output-component "--" s f)))))
+
+(defmethod markless:count-words-by + (method (conditional conditional-part))
+  (loop for choice across (choices conditional)
+        sum (loop for child across choice
+                  sum (markless:count-words-by method child))))
 
 (defclass fake-instruction (components:instruction) ())
 
