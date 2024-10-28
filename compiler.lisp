@@ -85,9 +85,14 @@
   (let ((*root* component))
     (call-next-method)))
 
-(defmethod walk ((component mcomponents:blockquote-header) (assembly assembly))
+(defmethod walk ((component components:source) (assembly assembly))
   (emit (make-instance 'source :label component
                                :name (components:name component))
+        assembly))
+
+(defmethod walk ((component mcomponents:blockquote-header) (assembly assembly))
+  (emit (make-instance 'source :label component
+                               :name (mcomponents:text component))
         assembly))
 
 (defmethod walk :before ((component mcomponents:blockquote) (assembly assembly))
