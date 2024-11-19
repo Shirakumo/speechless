@@ -34,14 +34,14 @@
 
 (defmethod print-object ((request emote-request) stream)
   (print-unreadable-object (request stream :type T :identity T)
-    (format stream "~s" (emote request))))
+    (format stream "~s ~s" (emote request) (text request))))
 
 (defclass pause-request (text-request target-request)
   ((duration :initarg :duration :reader duration)))
 
 (defmethod print-object ((request pause-request) stream)
   (print-unreadable-object (request stream :type T :identity T)
-    (format stream "~fs" (duration request))))
+    (format stream "~fs ~s" (duration request) (text request))))
 
 (defclass source-request (target-request)
   ((name :initarg :name :reader name)))
