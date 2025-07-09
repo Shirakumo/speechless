@@ -102,12 +102,11 @@
     (format stream "~s -> ~s" (entity move) (components:target move))))
 
 (defclass setf (fake-instruction)
-  ((place :initarg :place :initform (error "PLACE required") :accessor place)
-   (form :initarg :form :initform (error "FORM required") :accessor form)))
+  ((places :initarg :places :initform (error "PLACES required") :accessor places)))
 
 (defmethod print-object ((setf setf) stream)
   (print-unreadable-object (setf stream :type T)
-    (format stream "~s ~s" (place setf) (form setf))))
+    (format stream "~{~s~^ ~}" (places setf))))
 
 (defclass eval (fake-instruction)
   ((form :initarg :form :initform (error "FORM required") :accessor form)))

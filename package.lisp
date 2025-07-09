@@ -25,7 +25,7 @@
    #:arguments
    #:move
    #:setf
-   #:place
+   #:places
    #:eval))
 
 (defpackage #:org.shirakumo.fraf.speechless.syntax

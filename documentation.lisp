@@ -122,11 +122,10 @@ See MOVE")
   (type setf
     "Instruction to set a place.
 
-See PLACE
-See FORM")
+See PLACES")
 
   (function place
-    "Accesses a form describing the place to set.")
+    "Accesses the forms describing the places and values to set.")
   
   (type eval
     "Instruction to evaluate a piece of Lisp code.

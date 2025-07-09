@@ -235,8 +235,7 @@
   :func (compile-form assembly (components:form components:eval)))
 
 (define-simple-walker components:setf eval
-  :func (compile-form assembly `(setf ,(components:place components:setf)
-                                      ,(components:form components:setf))))
+  :func (compile-form assembly `(setf ,@(components:places components:setf))))
 
 (define-simple-walker components:emote emote
   :emote (components:emote components:emote))

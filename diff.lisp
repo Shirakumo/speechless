@@ -170,8 +170,7 @@
   (compare "Expected speed ~a, but got ~a." (components:speed a) (components:speed b)))
 
 (define-diff localisation-differ components:setf (a b)
-  (compare "Expected place~%  ~s~%but got~%  ~s" (components:place b) (components:place a))
-  (compare "Expected form~%  ~s~%but got~%  ~s" (components:form b) (components:form a)))
+  (compare "Expected places~%  ~s~%but got~%  ~s" (components:places b) (components:places a)))
 
 (define-diff localisation-differ components:eval (a b)
   (compare "Expected form~%  ~s~%but got~%  ~s" (components:form b) (components:form a)))

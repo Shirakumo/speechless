@@ -216,11 +216,13 @@
                                     :target (read-from-string target))))
 
 (defmethod markless:parse-instruction ((proto components:setf) line cursor)
-  (multiple-value-bind (place cursor) (read-from-string line T NIL :start cursor)
-    (multiple-value-bind (form cursor) (read-from-string line T NIL :start cursor)
-      (when (< cursor (length line))
-        (error 'markless:parser-error :cursor cursor))
-      (make-instance (class-of proto) :place place :form form))))
+  (let ((places ()))
+    (loop
+      (multiple-value-bind (place next) (read-from-string line T NIL :start cursor)
+        (setf cursor next)
+        (push place places)
+        (when (<= (length line) cursor)
+          (return (make-instance (class-of proto) :places (nreverse places))))))))
 
 (defmethod markless:parse-instruction ((proto components:eval) line cursor)
   (let ((forms ()))
